@@ -126,7 +126,7 @@ Before we move on, a couple of notes:
       logMessage(message)
     }, 1000)
   }).then(function(messageArg){
-    	console.log(messageArg)
+    console.log(messageArg)
   })
   ```
 
