@@ -72,7 +72,7 @@ When we create a new promise, we return that promise object we saw above.
 {[[PromiseStatus]]: "pending", [[PromiseValue]]: undefined}
 ```
 
-That object has a method on it called `then`, and we can pass that `then` method a function that we can call whenever we want.  So for example, we can change our code to the following.  (The code below is getting there but missing some things, before it will work.)
+That object has a method on it called `then`, and we can pass that `then` method a function that we can call whenever we want.  So for example, we can change our code to the following.  (The code below is getting there  -- but missing some things  -- before it will work.)
 
 
 ```js
@@ -109,11 +109,11 @@ promise
   // Promise {[[PromiseStatus]]: "resolved", [[PromiseValue]]: undefined}
 ```  
 
-Ok, so the above code initializes a new promise object and is passed an executor function. The executor function takes an argument, which references the resolve function declared as an argument to `.then`.  We execute that resolve function in the line after `message` is reassigned to the string "updated".  Because the resolve function is executed from inside of the call to `setTimeout`, it is not executed until the proper time.  
+Ok, so the above code initializes a new promise object which is passed an executor function. The executor function takes an argument, which references the resolve function declared as an argument to `.then`.  We execute that resolve function in the line after `message` is reassigned to the string "updated".  Because the resolve function is executed from inside of the call to `setTimeout`, it appropriately waits before being executed.  
 
 Before we move on, a couple of notes:
 
-  1. In the code above, we assigned the promise to a variable called `promise`.  We did this to show something.  As you can see when we first initialize the promise, it has an attribute called `[[PromiseStatus]]`.  That attribute equals "pending" until the resolve function is called.  Once the resolve function is called, which occurs after 1000 milliseconds per the `setTimeout` function, we see that the `[[PromiseStatus]]` has changed to "updated".
+  1. In the code above, we assigned the promise to a variable called `promise`.  We did this to illustrate the following.  When we first initialize the promise, it has an attribute called `[[PromiseStatus]]`.  That attribute equals "pending" until the resolve function is called.  Once the resolve function is called, which occurs after 1000 milliseconds per the `setTimeout` function, we see that the `[[PromiseStatus]]` has changed to "updated".
 
   2. We can name the argument to the executor function whatever we want.  Just like in the rest of JavaScript, argument names don't matter.  Here is us changing the argument to our executor `logMessage`.
 
