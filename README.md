@@ -113,7 +113,9 @@ Ok, so the above code initializes a new promise object and is passed an executor
 
 Before we move on, a couple of notes:
 
-  1. We can name the argument to the executor function whatever we want.  Just like in the rest of JavaScript, argument names don't matter.  Here is us changing the argument to our executor `logMessage`.
+  1. In the code above, we assigned the promise to a variable called `promise`.  We did this to show something.  As you can see when we first initialize the promise, it has an attribute called `[[PromiseStatus]]`.  That attribute equals "pending" until the resolve function is called.  Once the resolve function is called, which occurs after 1000 milliseconds per the `setTimeout` function, we see that the `[[PromiseStatus]]` has changed to "updated".
+
+  2. We can name the argument to the executor function whatever we want.  Just like in the rest of JavaScript, argument names don't matter.  Here is us changing the argument to our executor `logMessage`.
 
   ```js
   const promise = new Promise(function(logMessage) {
@@ -124,11 +126,9 @@ Before we move on, a couple of notes:
       logMessage(message)
     }, 1000)
   }).then(function(messageArg){
-    console.log(messageArg)
+    	console.log(messageArg)
   })
   ```
-
-  2. One other thing to point out is that we assigned the promise to a variable called `promise`.  We did this to show something.  As you can see when we first initialize the promise, it has an attribute called `[[PromiseStatus]]`.  That attribute equals "pending" until the resolve function is called.  Once the resolve function is called, which occurs after 1000 milliseconds per the `setTimeout` function, we see that the `[[PromiseStatus]]` has changed to "updated".
 
 ## Promises in Functions
 
