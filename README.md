@@ -2,9 +2,8 @@ JavaScript Promises
 ---
 
 ## Objectives
-
-
-
+  + Understand how promises allow us to make specified JavaScript code run synchronously
+  + Understand how to resolve a promise in JavaScript.
 ## Introduction
 
 In the last section we saw that for functions or execution code that takes a while to run, JavaScript happily proceeds onto the next line.  It's why the code below will log "Hola" before alerting "Hello World!".  
