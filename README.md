@@ -4,7 +4,7 @@ JavaScript Promises
 ## Objectives
   + Understand how promises allow us to make specified JavaScript code run synchronously
   + Understand how to resolve a promise in JavaScript
-  
+
 ## Introduction
 
 In the last section we saw that for functions or execution code that takes a while to run, JavaScript happily proceeds onto the next line.  It's why the code below will log "Hola" before alerting "Hello World!".  
@@ -64,7 +64,7 @@ new Promise(function() {
 // {[[PromiseStatus]]: "pending", [[PromiseValue]]: undefined}
 ```  
 
-If you run this new code, our promise may appear pretty useless.  That is, our `console.log` statement still running before the `setTimeout` function completes...bummer.  Ok, so here is where the magic comes in.  
+If you run this new code, our promise may appear pretty useless.  That is, our `console.log` statement still runs before the `setTimeout` function completes...bummer.  Ok, so here is where the magic comes in.  
 
 When we create a new promise, we return that promise object we saw above.  
 
@@ -72,7 +72,7 @@ When we create a new promise, we return that promise object we saw above.
 {[[PromiseStatus]]: "pending", [[PromiseValue]]: undefined}
 ```
 
-That object has a method on it called `then`, and we can pass that method a function that we can call whenever we want.  So for example, we can change our code to the following.  (The code below is getting there but missing some things, before it will work.)
+That object has a method on it called `then`, and we can pass that `then` method a function that we can call whenever we want.  So for example, we can change our code to the following.  (The code below is getting there but missing some things, before it will work.)
 
 
 ```js
@@ -89,7 +89,7 @@ new Promise(function() {
 // Promise {[[PromiseStatus]]: "pending", [[PromiseValue]]: undefined}
 ```  
 
-Ok, so the way the `then` method works, is that it receives a callback function -- called the "resolve function" -- which only is run at precisely the correct time.  When is that time, well it's after the `message` variable is reassigned.  The final piece is that our executor function, takes an argument, which references the resolve function.  Let's see what this looks like with our final code below.   
+Ok, so the way the `then` method works, is that it receives a callback function -- called the "resolve function" -- which only is run at precisely the correct time.  When would that time be? Well it's after the `message` variable is reassigned to "updated".  To have that occur, we must implement the final piece.  This is that piece: our executor function, takes an argument, which references the resolve function.  Let's see what this looks like with our final code below.   
 
 ```js
 const promise = new Promise(function(resolve) {
@@ -111,7 +111,24 @@ promise
 
 Ok, so the above code initializes a new promise object and is passed an executor function. The executor function takes an argument, which references the resolve function declared as an argument to `.then`.  We execute that resolve function in the line after `message` is reassigned to the string "updated".  Because the resolve function is executed from inside of the call to `setTimeout`, it is not executed until the proper time.  
 
-One other thing to point out is that we assigned the promise to a variable called `promise`.  We did this to show something.  As you can see when we first initialize the promise, it has an attribute called `[[PromiseStatus]]`.  That attribute equals "pending" until the resolve function is called.  Once the resolve function is called, which occurs after 1000 milliseconds per the `setTimeout` function, we see that the `[[PromiseStatus]]` has changed to "updated".
+Before we move on, a couple of notes:
+
+  1. We can name the argument to the executor function whatever we want.  Just like in the rest of JavaScript, argument names don't matter.  Here is us changing the argument to our executor `logMessage`.
+
+    ```js
+    const promise = new Promise(function(logMessage) {
+      let message = 'initial'
+
+      setTimeout(function(){
+        message = 'updated'
+        logMessage(message)
+      }, 1000)
+    }).then(function(messageArg){
+      console.log(messageArg)
+    })
+    ```
+
+  2. One other thing to point out is that we assigned the promise to a variable called `promise`.  We did this to show something.  As you can see when we first initialize the promise, it has an attribute called `[[PromiseStatus]]`.  That attribute equals "pending" until the resolve function is called.  Once the resolve function is called, which occurs after 1000 milliseconds per the `setTimeout` function, we see that the `[[PromiseStatus]]` has changed to "updated".
 
 ## Promises in Functions
 
