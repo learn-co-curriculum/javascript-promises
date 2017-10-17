@@ -34,11 +34,13 @@ As you can see, we want our `setTimeout` to reassign our variable `message` to e
 
 ## Welcome to Promises
 
+The way to have code wait in JavaScript is with promises.  Let's dive in and see our first promise.
+
 ```js
   new Promise(function() { ... } );
 ```
 
-The code above uses a built in JavaScript constructor function called a promise.  When a new promise is initialized it takes one argument, a function, which is called "the executor".  No joke.  That executor function is executed immediately with the construction of the promise.  Let's just see that part in action.
+The code above uses a built in JavaScript constructor function called a promise.  When a new promise is initialized it takes one argument, a function, which is called "the executor".  Now, that's a name.  That executor function is executed immediately with the construction of the promise.  Let's just see that part in action.
 
 ```js
   new Promise(function() { console.log('message') } );
@@ -49,7 +51,6 @@ The code above uses a built in JavaScript constructor function called a promise.
 If you run that code in your console, you'll see that the executor function is run immediately - logging the message.  Now let's copy our code about into our executor function.  
 
 ```js
-
 new Promise(function() {
   let message = 'initial'
 
@@ -72,7 +73,7 @@ When we create a new promise, we return that promise object we saw above.
 {[[PromiseStatus]]: "pending", [[PromiseValue]]: undefined}
 ```
 
-That object has a method on it called `then`, and we can pass that `then` method a function that we can call whenever we want.  So for example, we can change our code to the following.  (The code below is getting there  -- but missing some things  -- before it will work.)
+That promise object has a method on it called `then`, and we can pass that `then` method a function that we can call whenever we want.  So for example, we can change our code to the following.  (The code below is getting there  -- but missing some things  -- before it will work.)
 
 
 ```js
@@ -89,7 +90,9 @@ new Promise(function() {
 // Promise {[[PromiseStatus]]: "pending", [[PromiseValue]]: undefined}
 ```  
 
-Ok, so the way the `then` method works, is that it receives a callback function -- called the "resolve function" -- which only is run at precisely the correct time.  When would that time be? Well it's after the `message` variable is reassigned to "updated".  To have that occur, we must implement the final piece.  This is that piece: our executor function, takes an argument, which references the resolve function.  Let's see what this looks like with our final code below.   
+Ok, so the way the `then` method works, is that it receives a callback function -- called the "resolve function" -- which only is run at precisely the correct time.  In the example above, the resolve function is declared as `function(messageArg){ console.log(messageArg) }`.
+
+When would we like our message to be logged? Well after the `message` variable is reassigned to "updated".  To have that occur, we must implement the final piece.  This is that piece: our executor function, takes an argument, which references the resolve function.  Let's see what this looks like with our final code below.
 
 ```js
 const promise = new Promise(function(resolve) {
@@ -125,6 +128,7 @@ Before we move on, a couple of notes:
       message = 'updated'
       logMessage(message)
     }, 1000)
+
   }).then(function(messageArg){
     console.log(messageArg)
   })
@@ -132,7 +136,7 @@ Before we move on, a couple of notes:
 
 ## Promises in Functions
 
-You may be wondering why we did not simply call the `console.log` from directly inside of the `setTimeout` function.  Practically, we could have.  However, we would like to maintain separation of concerns and promises allows us to do that.  We are separating the asynchronous portion of our codebase from the rest of our code.  For example, oftentimes you will see promises wrapped in a function call.  It looks like the following:
+You may be wondering why we did not simply call the `console.log` from directly inside of the `setTimeout` function.  Practically, we could have.  However, we would like to maintain separation of concerns and promises allows us to do that.  We are separating the asynchronous portion of our codebase from the rest of our code.  Sometimes, you will see this separation of concerns made more explicit with promises wrapped in a function call.  It looks like the following:
 
 ```js
 function updateMessage(){
@@ -160,7 +164,7 @@ As you can see, promises allows us to separate out our asynchronous action, and 
 
 ## Summary
 
-Promises allow us to execute asynchronous code, and then delay the execution of other code.  Promises are used by initializing a new promise object, which receives an executor function.  The executor is immediately called.  In the executor function is generally some asynchronous code.  The executor function takes an argument, which references the "resolve" function.  The resolve function is declared as an argument to the promise's `then` method.  This resolve function is generally then executed from inside of asynchronous code.  With this, promises allow a developer to execute code asynchronous code, and not have code that relies on the asynchronous code execute until specified.  A developer can easily specify what that code is by placing it inside of the function argument to the promise's `then` method.
+Promises allow us to execute asynchronous code, and then delay the execution of other code.  Promises are used by initializing a new promise object, which receives an executor function.  The executor is immediately called.  In the executor function, is generally some asynchronous code.  The executor function takes an argument, which references the "resolve" function.  The resolve function is declared as an argument to the promise's `then` method.  This resolve function is generally then executed from inside of asynchronous code.  With this, promises allow a developer to execute code asynchronous code, and not have code that relies on the asynchronous code execute until specified.  A developer can easily specify what that code is by placing it inside of the function argument to the promise's `then` method.
 
 ## Resources
 
